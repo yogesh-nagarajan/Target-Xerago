@@ -54,10 +54,29 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         // Fetch full user data to get address, age, phone, birthDate
         const fullUserResponse = await fetch(`https://dummyjson.com/users/${data.id}`);
         const fullUserData = await fullUserResponse.json();
-        
+
         // Merge the token from login into full user data
         setUser({ ...fullUserData, token: data.token });
+
+        window.adobe.target.getOffer({
+          mbox: "homepage-banner",
+
+          params: {
+            login: "true",
+            userType: "premium"
+          },
+
+          success: function (offer: any) {
+            adobe.target.applyOffer({
+              mbox: "homepage-banner",
+              offer: offer
+            });
+          }
+        });
+
+
         console.log('Login Success with Full Data:', { ...fullUserData, token: data.token });
+        console.log('Role Data:', { ...fullUserData.role });
         return true;
       } else {
         setError(data.message || 'Login failed');
