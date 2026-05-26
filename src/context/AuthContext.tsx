@@ -63,7 +63,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
           params: {
             login: "true",
-            userType: "premium"
+            userType: fullUserData.role
           },
 
           success: function (offer: any) {
@@ -76,7 +76,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
 
         console.log('Login Success with Full Data:', { ...fullUserData, token: data.token });
-        console.log('Role Data:', { ...fullUserData.role });
+        console.log('Role Data:', fullUserData.role);
         return true;
       } else {
         setError(data.message || 'Login failed');
